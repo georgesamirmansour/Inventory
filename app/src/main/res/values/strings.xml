@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string name="app_name">Inventory</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="Overview">Overview</string>
+    <string name="Inventory">Inventory</string>
+    <string name="product_name">product Name</string>
+    <string name="Description">Description</string>
+    <string name="price">0 $</string>
+    <string name="product_price">product Price</string>
+    <string name="product_quantity">product Quantity</string>
+    <string name="_0_products">0 products</string>
+    <string name="make_order">make Order</string>
+    <string name="warning_message_0_product">you can\'t have less than 0 product</string>
+    <string name="order_subject_message">Order from inventory</string>
+</resources>
