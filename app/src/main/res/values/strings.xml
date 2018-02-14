@@ -15,4 +15,10 @@
     <string name="make_order">make Order</string>
     <string name="warning_message_0_product">you can\'t have less than 0 product</string>
     <string name="order_subject_message">Order from inventory</string>
+    <string name="log_closing_parcel_file">getImage: error while closing parcel file descriptor</string>
+    <string name="log_loading_image">getImage: error while loading image</string>
+    <string name="error_while_adding">error while adding</string>
+    <string name="data_added">data added</string>
+    <string name="fill_required_filled">Please fill out required filed</string>
+    <string name="sale">sale</string>
 </resources>
