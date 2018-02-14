@@ -60,8 +60,8 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, productName);
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, productDescription);
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION, productQuantity);
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, productQuantity);
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION, productDescription);
         values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_IMAGE, String.valueOf(productImage));
         values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE, productPrice);
         long rowID = database.insert(InventoryContract.InventoryEntry.TABLE_NAME, null, values);
@@ -83,21 +83,18 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void update(int ID) {
+    public void update(int oldID, int newID) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME, inventory.getProductName());
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, inventory.getProductQuantity());
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION, inventory.getProductDescription());
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE, inventory.getProductPrice());
+        values.put(InventoryEntry._ID, newID);
         database.update(InventoryContract.InventoryEntry.TABLE_NAME, values,
-                InventoryContract.InventoryEntry._ID + " = " + ID, null);
+                InventoryContract.InventoryEntry._ID + " = " + oldID, null);
     }
 
-    public boolean updateQuantity(int ID) {
+    public boolean updateQuantity(int ID, int newQuantity) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, inventory.getProductQuantity());
+        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
         long rowID = database.update(InventoryContract.InventoryEntry.TABLE_NAME, values,
                 InventoryContract.InventoryEntry._ID + " = " + ID, null);
         return rowID != 0;

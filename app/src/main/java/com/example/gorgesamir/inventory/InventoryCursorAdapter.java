@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gorgesamir.inventory.data.InventoryContract;
-import com.example.gorgesamir.inventory.data.InventoryDbHelper;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -26,15 +25,13 @@ import java.io.IOException;
  */
 
 public class InventoryCursorAdapter extends CursorAdapter {
-    private static final String TAG = InventoryCursorAdapter.class.getSimpleName();
-    MainActivity activity;
-    InventoryDbHelper content = new InventoryDbHelper(activity);
 
+    private static final String TAG = InventoryCursorAdapter.class.getSimpleName();
+    MainActivity mainActivity;
 
     public InventoryCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
-
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);
@@ -69,13 +66,13 @@ public class InventoryCursorAdapter extends CursorAdapter {
     private Bitmap getImage(Uri uri) {
         ParcelFileDescriptor parcelFileDescriptor = null;
         try {
-            parcelFileDescriptor = activity.getContentResolver().openFileDescriptor(uri, "r");
+            parcelFileDescriptor = mainActivity.getContentResolver().openFileDescriptor(uri, "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
             parcelFileDescriptor.close();
             return bitmap;
         } catch (IOException e) {
-            Log.e(TAG, activity.getString(R.string.log_loading_image), e);
+            Log.e(TAG, mainActivity.getString(R.string.log_loading_image), e);
             return null;
         } finally {
             try {
@@ -83,8 +80,10 @@ public class InventoryCursorAdapter extends CursorAdapter {
                     parcelFileDescriptor.close();
                 }
             } catch (IOException e) {
-                Log.e(TAG, activity.getString(R.string.log_closing_parcel_file), e);
+                Log.e(TAG, mainActivity.getString(R.string.log_closing_parcel_file), e);
             }
         }
     }
 }
+
+

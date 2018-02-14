@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.example.gorgesamir.inventory.data.InventoryDbHelper;
 
 public class Editor extends AppCompatActivity {
 
+    private static final int CAMERA_REQUEST = 6020;
     Inventory inventory = new Inventory();
     EditText nameEditText;
     EditText priceEditText;
@@ -30,6 +32,8 @@ public class Editor extends AppCompatActivity {
         increment();
         decrement();
         insertData();
+        addImage();
+
     }
 
     private void insertData() {
@@ -109,5 +113,24 @@ public class Editor extends AppCompatActivity {
         quantityTextView.setText(productQuantity + " products");
     }
 
+    private void addImage() {
+        ImageButton takePhotoImageButton = findViewById(R.id.take_photo_button);
+        takePhotoImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA_REQUEST);
+            }
+        });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == CAMERA_REQUEST) {
+            inventory.setProductImage((Bitmap) data.getExtras().get("data"));
+            ImageView productImageView = findViewById(R.id.product_image_view);
+            productImageView.setImageBitmap(inventory.getProductImage());
+        }
+    }
 }

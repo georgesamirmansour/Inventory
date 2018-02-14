@@ -67,7 +67,6 @@ public class ItemEditor extends AppCompatActivity {
         priceTextView.setText(productPrice);
     }
 
-    //bos hena fy function selectRow fyha error mo4 3arf a3mlo , please help , na kda fadly el image w a5las 5als
     private void selectRow() {
         content.selectData(ID);
         SQLiteDatabase database = content.getReadableDatabase();
@@ -102,7 +101,6 @@ public class ItemEditor extends AppCompatActivity {
                 if (rowID == ID) {
                     inventory.setProductName(cursor.getString(nameColumnIndex));
                     inventory.setProductDescription(cursor.getString(descriptionColumnIndex));
-// hena el error bs mo4 3arf a7lo line 95,96 7awl twslo please 3iz a5ls mn omo
                     inventory.setProductPrice(cursor.getInt(priceColumnIndex));
                     inventory.setProductQuantity(cursor.getInt(quantityColumnIndex));
 
@@ -145,7 +143,8 @@ public class ItemEditor extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (content.updateQuantity(ID) == true) {
+                content.updateQuantity(ID, inventory.getProductQuantity());
+                if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
                     Toast.makeText(getApplicationContext(), "quantity updated", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ItemEditor.this, MainActivity.class);
                     startActivity(intent);
@@ -167,8 +166,44 @@ public class ItemEditor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 content.delete(ID);
+                SQLiteDatabase database = content.getWritableDatabase();
+                String[] projection =
+                        {
+                                InventoryContract.InventoryEntry._ID,
+                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
+                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE,
+                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY,
+                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION,
+                        };
+                Cursor cursor = database.query(
+                        InventoryContract.InventoryEntry.TABLE_NAME,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                );
+                try {
+//                    int idColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry._ID);
+//                    int newID = ID;
+//                    cursor.moveToFirst();
+//                    content.selectData((cursor.getPosition()));
+//                    while (cursor.moveToNext()) {
+//                        if (newID == cursor.getInt(idColumnIndex)) {
+//                            break;
+//                        } else {
+//                            content.update(cursor.getInt(idColumnIndex), cursor.getInt(idColumnIndex) -1);
+//                            newID++;
+//                        }
+//                    }
+                } finally {
+                    cursor.close();
+                }
                 Intent intent = new Intent(ItemEditor.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
     }
@@ -182,9 +217,11 @@ public class ItemEditor extends AppCompatActivity {
                     String orderMessage = "Product name \t" + inventory.getProductName() + "\n"
                             + "ProductPrice \t" + inventory.getProductPrice() + "\n"
                             + "Product description \t" + inventory.getProductDescription() + "\n"
-                            + "Product quantity \t" + inventory.getProductQuantity();
-                    inventory.setProductQuantity(inventory.getProductQuantity() - 1);
-                    if (content.updateQuantity(ID) == true) {
+                            + "Product quantity \t" + 1;
+                    int newQuantity = inventory.getProductQuantity() - 1;
+                    inventory.setProductQuantity(newQuantity);
+                    content.updateQuantity(ID, inventory.getProductQuantity());
+                    if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
                         Toast.makeText(getApplicationContext(), "quantity updated", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "can't update quantity", Toast.LENGTH_SHORT).show();

@@ -13,24 +13,8 @@ public class Inventory {
     private int productQuantity;
     private int productPrice;
     private Bitmap productImage;
-//    private Bitmap emptyBitMap;
 
     public Inventory() {
-    }
-
-    public Inventory(String productName, String productDescription, int productQuantity, int productPrice, Bitmap productImage) {
-        this.productName = productName;
-        this.productDescription = productDescription;
-        this.productQuantity = productQuantity;
-        this.productPrice = productPrice;
-        this.productImage = productImage;
-    }
-
-    public Inventory(String productName, String productDescription, int productQuantity, int productPrice) {
-        this.productName = productName;
-        this.productDescription = productDescription;
-        this.productQuantity = productQuantity;
-        this.productPrice = productPrice;
     }
 
     public String getProductName() {
