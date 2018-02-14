@@ -21,4 +21,5 @@
     <string name="data_added">data added</string>
     <string name="fill_required_filled">Please fill out required filed</string>
     <string name="sale">sale</string>
+    <string name="product_description">Product Description</string>
 </resources>

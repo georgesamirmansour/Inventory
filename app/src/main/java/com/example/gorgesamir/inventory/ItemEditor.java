@@ -19,6 +19,8 @@ public class ItemEditor extends AppCompatActivity {
 
     InventoryDbHelper content = new InventoryDbHelper(this);
     Inventory inventory = new Inventory();
+    private String productPrice;
+    private String productQuantity;
     private int ID;
 
     @Override
@@ -35,13 +37,19 @@ public class ItemEditor extends AppCompatActivity {
         } else {
             ID = (Integer) savedInstanceState.getSerializable("my-ID");
         }
-        selectRow();
         increment();
         decrement();
-        showText();
         updateQuantity();
         deleteProduct();
         makeOrder();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        inventory.getProductQuantity();
+        selectRow();
+        showText();
     }
 
     private void showText() {
@@ -50,10 +58,13 @@ public class ItemEditor extends AppCompatActivity {
         TextView quantityTextView = findViewById(R.id.product_quantity_text_view);
         TextView priceTextView = findViewById(R.id.product_price_text_view);
 
+        productPrice = String.valueOf(inventory.getProductPrice());
+        productQuantity = String.valueOf(inventory.getProductQuantity());
+
         nameTextView.setText(inventory.getProductName());
         descriptionTextView.setText(inventory.getProductDescription());
-        quantityTextView.setText(inventory.getProductQuantity());
-        priceTextView.setText(inventory.getProductPrice());
+        quantityTextView.setText(productQuantity);
+        priceTextView.setText(productPrice);
     }
 
     //bos hena fy function selectRow fyha error mo4 3arf a3mlo , please help , na kda fadly el image w a5las 5als
