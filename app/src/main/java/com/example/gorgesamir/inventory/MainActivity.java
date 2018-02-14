@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listView;
     InventoryCursorAdapter adapter;
-    InventoryDbHelper helper = new InventoryDbHelper(this);
+    InventoryDbHelper content = new InventoryDbHelper(this);
 
     @Override
     protected void onStart() {
@@ -61,25 +61,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//    public void deleteData() {
-//        ImageButton deleteImageButton = (ImageButton) findViewById(R.id.delete_button);
-//        deleteImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        SQLiteDatabase database = helper.getWritableDatabase();
-//                        database.delete(InventoryContract.InventoryEntry.TABLE_NAME,
-//                                InventoryContract.InventoryEntry._ID + "=" + adapter.getItem(i), null);
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     private void displayDataInfo() {
-        SQLiteDatabase database = helper.getReadableDatabase();
+        SQLiteDatabase database = content.getReadableDatabase();
         String[] projection =
                 {
                         InventoryContract.InventoryEntry._ID,
@@ -103,14 +87,4 @@ public class MainActivity extends AppCompatActivity {
         InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, cursor);
         inventoryListView.setAdapter(adapter);
     }
-//
-//    private void updateQuantity(int quantity) {
-//        SQLiteDatabase writableDatabase = helper.getWritableDatabase();
-//        SQLiteDatabase readableDatabase = helper.getReadableDatabase();
-//
-//        quantity = quantity - 1;
-//        ContentValues values = new ContentValues();
-//        values.put(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY, quantity);
-//        writableDatabase.update(InventoryContract.InventoryEntry.TABLE_NAME, quantity, );
-//    }
 }
