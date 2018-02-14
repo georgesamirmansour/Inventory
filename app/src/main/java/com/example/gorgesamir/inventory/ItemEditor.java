@@ -52,10 +52,11 @@ public class ItemEditor extends AppCompatActivity {
 
         nameTextView.setText(inventory.getProductName());
         descriptionTextView.setText(inventory.getProductDescription());
-//        quantityTextView.setText(inventory.getProductQuantity());
-//        priceTextView.setText(inventory.getProductPrice());
+        quantityTextView.setText(inventory.getProductQuantity());
+        priceTextView.setText(inventory.getProductPrice());
     }
 
+    //bos hena fy function selectRow fyha error mo4 3arf a3mlo , please help , na kda fadly el image w a5las 5als
     private void selectRow() {
         content.selectData(ID);
         SQLiteDatabase database = content.getReadableDatabase();
@@ -81,8 +82,8 @@ public class ItemEditor extends AppCompatActivity {
             int idColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry._ID);
             int nameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
             int descriptionColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION);
-            int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY);
+            int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE);
 
 
             while (cursor.moveToNext()) {
