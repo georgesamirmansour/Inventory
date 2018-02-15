@@ -51,13 +51,15 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         Log.e(String.valueOf(productImage), "bindView: ");
 
-        Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(productImage.clone(), 0, productImage.length);
+        Log.e(String.valueOf(bitmap), "bindView: ");
         nameTextView.setText(productName);
         priceTextView.setText(productPrice);
         quantityTextView.setText(productQuantity);
         productImageView.setImageBitmap(bitmap);
 
     }
+
 }
 
 

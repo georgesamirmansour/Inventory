@@ -3,7 +3,6 @@ package com.example.gorgesamir.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -41,7 +40,6 @@ public class ItemEditor extends AppCompatActivity {
         decrement();
         updateQuantity();
         deleteProduct();
-        makeOrder();
     }
 
     @Override
@@ -109,7 +107,6 @@ public class ItemEditor extends AppCompatActivity {
         } finally {
             cursor.close();
         }
-
     }
 
     private void increment() {
@@ -208,40 +205,5 @@ public class ItemEditor extends AppCompatActivity {
         });
     }
 
-    private void makeOrder() {
-        ImageButton orderImageButton = findViewById(R.id.order_button);
-        orderImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (inventory.getProductQuantity() != 0 || inventory.getProductQuantity() > 1) {
-                    String orderMessage = "Product name \t" + inventory.getProductName() + "\n"
-                            + "ProductPrice \t" + inventory.getProductPrice() + "\n"
-                            + "Product description \t" + inventory.getProductDescription() + "\n"
-                            + "Product quantity \t" + 1;
-                    int newQuantity = inventory.getProductQuantity() - 1;
-                    inventory.setProductQuantity(newQuantity);
-                    content.updateQuantity(ID, inventory.getProductQuantity());
-                    if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
-                        Toast.makeText(getApplicationContext(), "quantity updated", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "can't update quantity", Toast.LENGTH_SHORT).show();
-                    }
-                    composeEmail(getString(R.string.order_subject_message), orderMessage);
-                } else {
-                    Toast.makeText(getApplicationContext(), "can't make order", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void composeEmail(String subject, String text) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto: "));
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
 }
 
