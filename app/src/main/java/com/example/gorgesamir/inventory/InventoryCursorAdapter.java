@@ -2,6 +2,8 @@ package com.example.gorgesamir.inventory;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,16 +47,15 @@ public class InventoryCursorAdapter extends CursorAdapter {
         String productName = cursor.getString(nameColumnIndex);
         String productQuantity = cursor.getString(quantityColumnIndex);
         String productPrice = cursor.getString(priceColumnIndex);
-        String productImage = cursor.getString(productImageColumnIndex);
+        byte[] productImage = cursor.getBlob(productImageColumnIndex);
 
         Log.e(String.valueOf(productImage), "bindView: ");
 
-//        Bitmap bitmap = BitmapFactory.decode
-//        Log.e(String.valueOf(bitmap), "bindView: ");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(productImage, 0, productImage.length);
         nameTextView.setText(productName);
         priceTextView.setText(productPrice);
         quantityTextView.setText(productQuantity);
-//        productImageView.setImageBitmap(bitmap);
+        productImageView.setImageBitmap(bitmap);
 
     }
 }
