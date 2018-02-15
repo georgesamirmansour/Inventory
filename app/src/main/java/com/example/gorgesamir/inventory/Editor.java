@@ -2,10 +2,8 @@ package com.example.gorgesamir.inventory;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -25,7 +23,6 @@ public class Editor extends AppCompatActivity {
     EditText nameEditText;
     EditText priceEditText;
     EditText descriptionEditText;
-    Uri uri;
     InventoryDbHelper content = new InventoryDbHelper(this);
     private Bitmap emptyBitmap;
 
@@ -139,7 +136,6 @@ public class Editor extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             inventory.setProductImage(bitmap);
             ImageView productImageView = findViewById(R.id.product_image_view);
-            Log.e(String.valueOf(inventory.getProductImage()), "onActivityResult: ");
             productImageView.setImageBitmap(inventory.getProductImage());
         }
     }

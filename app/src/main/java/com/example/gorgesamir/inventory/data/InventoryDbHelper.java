@@ -16,7 +16,6 @@ import com.example.gorgesamir.inventory.data.InventoryContract.InventoryEntry;
 public class InventoryDbHelper extends SQLiteOpenHelper {
 
 
-
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "inventory.db";
     private static final String TEXT_TYPE = " TEXT";
@@ -33,7 +32,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
             InventoryEntry.COLUMN_PRODUCT_PRICE + INTEGER_TYPE + NOT_NULL + DEFAULT_0 + COMMA_SEP +
             InventoryEntry.COLUMN_PRODUCT_QUANTITY + INTEGER_TYPE + NOT_NULL + DEFAULT_0 + " ); ";
     private static final String SQL_DELETE_ENTRIES = " DROP TABLE IF EXIST " + InventoryEntry.TABLE_NAME;
-    Inventory inventory = new Inventory();
 
     public InventoryDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -81,14 +79,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 InventoryContract.InventoryEntry._ID + " = " + ID;
         cursor = database.rawQuery(query, null);
         return cursor;
-    }
-
-    public void update(int oldID, int newID) {
-        SQLiteDatabase database = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(InventoryEntry._ID, newID);
-        database.update(InventoryContract.InventoryEntry.TABLE_NAME, values,
-                InventoryContract.InventoryEntry._ID + " = " + oldID, null);
     }
 
     public boolean updateQuantity(int ID, int newQuantity) {

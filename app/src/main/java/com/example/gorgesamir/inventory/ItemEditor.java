@@ -163,41 +163,6 @@ public class ItemEditor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 content.delete(ID);
-                SQLiteDatabase database = content.getWritableDatabase();
-                String[] projection =
-                        {
-                                InventoryContract.InventoryEntry._ID,
-                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME,
-                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE,
-                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY,
-                                InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION,
-                        };
-                Cursor cursor = database.query(
-                        InventoryContract.InventoryEntry.TABLE_NAME,
-                        projection,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                );
-                try {
-//                    int idColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry._ID);
-//                    int newID = ID;
-//                    cursor.moveToFirst();
-//                    content.selectData((cursor.getPosition()));
-//                    while (cursor.moveToNext()) {
-//                        if (newID == cursor.getInt(idColumnIndex)) {
-//                            break;
-//                        } else {
-//                            content.update(cursor.getInt(idColumnIndex), cursor.getInt(idColumnIndex) -1);
-//                            newID++;
-//                        }
-//                    }
-                } finally {
-                    cursor.close();
-                }
                 Intent intent = new Intent(ItemEditor.this, MainActivity.class);
                 startActivity(intent);
 

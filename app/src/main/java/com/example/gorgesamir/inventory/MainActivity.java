@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -31,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
         displayDataInfo();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         ID = listView.getPositionForView(view);
         ID = ID + 1;
         selectRow();
-        Log.e(String.valueOf(ID), "orderButton: ");
         if (inventory.getProductQuantity() != 0 || inventory.getProductQuantity() > 1) {
             String orderMessage = "Product name \t" + inventory.getProductName() + "\n"
                     + "ProductPrice \t" + inventory.getProductPrice() + "\n"

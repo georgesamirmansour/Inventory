@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +20,11 @@ import com.example.gorgesamir.inventory.data.InventoryContract;
 public class InventoryCursorAdapter extends CursorAdapter {
 
     private static final String TAG = InventoryCursorAdapter.class.getSimpleName();
-    MainActivity mainActivity;
 
     public InventoryCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
+
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, viewGroup, false);
@@ -38,7 +37,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
         TextView quantityTextView = view.findViewById(R.id.product_quantity);
         ImageView productImageView = view.findViewById(R.id.image_view_product_image);
 
-
         int nameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY);
@@ -49,10 +47,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
         String productPrice = cursor.getString(priceColumnIndex);
         byte[] productImage = cursor.getBlob(productImageColumnIndex);
 
-        Log.e(String.valueOf(productImage), "bindView: ");
-
         Bitmap bitmap = BitmapFactory.decodeByteArray(productImage.clone(), 0, productImage.length);
-        Log.e(String.valueOf(bitmap), "bindView: ");
         nameTextView.setText(productName);
         priceTextView.setText(productPrice);
         quantityTextView.setText(productQuantity);
