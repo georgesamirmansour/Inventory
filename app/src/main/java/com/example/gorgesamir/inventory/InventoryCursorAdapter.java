@@ -2,11 +2,6 @@ package com.example.gorgesamir.inventory;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gorgesamir.inventory.data.InventoryContract;
-
-import java.io.FileDescriptor;
-import java.io.IOException;
 
 /**
  * Created by gorge samir on 2018-02-04.
@@ -53,36 +45,17 @@ public class InventoryCursorAdapter extends CursorAdapter {
         String productName = cursor.getString(nameColumnIndex);
         String productQuantity = cursor.getString(quantityColumnIndex);
         String productPrice = cursor.getString(priceColumnIndex);
-//        String productImage = cursor.getString(productImageColumnIndex);
+        String productImage = cursor.getString(productImageColumnIndex);
 
+        Log.e(String.valueOf(productImage), "bindView: ");
+
+//        Bitmap bitmap = BitmapFactory.decode
+//        Log.e(String.valueOf(bitmap), "bindView: ");
         nameTextView.setText(productName);
         priceTextView.setText(productPrice);
         quantityTextView.setText(productQuantity);
-//        productImageView.setImageBitmap(getImage(Uri.parse(productImage)));
+//        productImageView.setImageBitmap(bitmap);
 
-    }
-
-    @Nullable
-    private Bitmap getImage(Uri uri) {
-        ParcelFileDescriptor parcelFileDescriptor = null;
-        try {
-            parcelFileDescriptor = mainActivity.getContentResolver().openFileDescriptor(uri, "r");
-            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-            Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-            parcelFileDescriptor.close();
-            return bitmap;
-        } catch (IOException e) {
-            Log.e(TAG, mainActivity.getString(R.string.log_loading_image), e);
-            return null;
-        } finally {
-            try {
-                if (parcelFileDescriptor != null) {
-                    parcelFileDescriptor.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, mainActivity.getString(R.string.log_closing_parcel_file), e);
-            }
-        }
     }
 }
 

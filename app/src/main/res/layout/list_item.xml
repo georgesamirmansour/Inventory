@@ -9,7 +9,8 @@
         android:id="@+id/image_view_product_image"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:src="@drawable/icons8_compact_camera_filled_50" />
 
     <TextView
         android:id="@+id/product_name"

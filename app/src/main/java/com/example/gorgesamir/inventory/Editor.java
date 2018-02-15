@@ -2,9 +2,10 @@ package com.example.gorgesamir.inventory;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,14 +16,18 @@ import android.widget.Toast;
 import com.example.gorgesamir.inventory.data.Inventory;
 import com.example.gorgesamir.inventory.data.InventoryDbHelper;
 
+import java.io.ByteArrayOutputStream;
+
 public class Editor extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST = 6020;
+    private static final int CAMERA_REQUEST = 1;
     Inventory inventory = new Inventory();
     EditText nameEditText;
     EditText priceEditText;
     EditText descriptionEditText;
+    Uri uri;
     InventoryDbHelper content = new InventoryDbHelper(this);
+    private Bitmap emptyBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,10 @@ public class Editor extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getEditTextEntry(view);
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icons8_warehouse_50);
-                inventory.setProductImage(bitmap);
                 if (!inventory.getProductName().isEmpty() && !inventory.getProductDescription().isEmpty() &&
                         inventory.getProductPrice() != 0 && inventory.getProductQuantity() != 0 &&
-                        inventory.getProductImage().sameAs(bitmap)) {
+                        inventory.getProductImage() != null) {
+
                     content.insert(inventory.getProductName(),
                             inventory.getProductDescription(),
                             inventory.getProductQuantity(),
@@ -57,7 +61,6 @@ public class Editor extends AppCompatActivity {
                             getString(R.string.data_added), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Editor.this, MainActivity.class);
                     startActivity(intent);
-
                 } else {
                     Toast.makeText(getApplicationContext(),
                             getString(R.string.fill_required_filled), Toast.LENGTH_LONG).show();
@@ -118,8 +121,10 @@ public class Editor extends AppCompatActivity {
         takePhotoImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA_REQUEST);
+                Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+                }
             }
         });
     }
@@ -127,9 +132,14 @@ public class Editor extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == CAMERA_REQUEST) {
-            inventory.setProductImage((Bitmap) data.getExtras().get("data"));
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bundle extra = data.getExtras();
+            Bitmap bitmap = (Bitmap) extra.get("data");
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            inventory.setProductImage(bitmap);
             ImageView productImageView = findViewById(R.id.product_image_view);
+            Log.e(String.valueOf(inventory.getProductImage()), "onActivityResult: ");
             productImageView.setImageBitmap(inventory.getProductImage());
         }
     }

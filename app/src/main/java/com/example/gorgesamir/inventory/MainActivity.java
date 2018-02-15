@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                         InventoryContract.InventoryEntry.COLUMN_PRODUCT_PRICE,
                         InventoryContract.InventoryEntry.COLUMN_PRODUCT_QUANTITY,
                         InventoryContract.InventoryEntry.COLUMN_PRODUCT_DESCRIPTION,
+                        InventoryContract.InventoryEntry.COLUMN_PRODUCT_IMAGE
                 };
         Cursor cursor = database.query(
                 InventoryContract.InventoryEntry.TABLE_NAME,
