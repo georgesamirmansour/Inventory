@@ -1,9 +1,12 @@
 package com.example.gorgesamir.inventory;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +24,7 @@ public class ItemEditor extends AppCompatActivity {
     private String productPrice;
     private String productQuantity;
     private int ID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class ItemEditor extends AppCompatActivity {
         decrement();
         updateQuantity();
         deleteProduct();
+        orderButton();
     }
 
     @Override
@@ -48,6 +53,14 @@ public class ItemEditor extends AppCompatActivity {
         inventory.getProductQuantity();
         selectRow();
         showText();
+        displayQuantities(inventory.getProductQuantity());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(ItemEditor.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void showText() {
@@ -125,12 +138,13 @@ public class ItemEditor extends AppCompatActivity {
         decrementImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), getString(R.string._0_products), Toast.LENGTH_SHORT).show();
                 if (inventory.getProductQuantity() == 0) {
+                    Toast.makeText(getApplicationContext(), getString(R.string._0_products), Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+                    inventory.setProductQuantity(inventory.getProductQuantity() - 1);
+                    displayQuantities(inventory.getProductQuantity());
                 }
-                inventory.setProductQuantity(inventory.getProductQuantity() - 1);
-                displayQuantities(inventory.getProductQuantity());
             }
         });
     }
@@ -142,11 +156,11 @@ public class ItemEditor extends AppCompatActivity {
             public void onClick(View view) {
                 content.updateQuantity(ID, inventory.getProductQuantity());
                 if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
-                    Toast.makeText(getApplicationContext(), "quantity updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.quantity_updataed, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ItemEditor.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getApplicationContext(), "can't update quantity", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.can_not_update_quantity, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -154,7 +168,7 @@ public class ItemEditor extends AppCompatActivity {
 
     private void displayQuantities(int productQuantity) {
         TextView quantityTextView = findViewById(R.id.product_quantity_text_view);
-        quantityTextView.setText(productQuantity + " products");
+        quantityTextView.setText(productQuantity + " Products");
     }
 
     private void deleteProduct() {
@@ -162,13 +176,72 @@ public class ItemEditor extends AppCompatActivity {
         deleteImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                content.delete(ID);
-                Intent intent = new Intent(ItemEditor.this, MainActivity.class);
-                startActivity(intent);
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(ItemEditor.this);
+                builder.setMessage(R.string.delete_dialog_message);
+                builder.setTitle(R.string.delete_item);
+                builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        content.delete(ID);
+                        Intent intent = new Intent(ItemEditor.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
     }
+
+    public void orderButton() {
+        ImageButton orderImageButton = findViewById(R.id.order_button);
+        orderImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (inventory.getProductQuantity() != 0 || inventory.getProductQuantity() > 1) {
+                    reduceQuantity();
+                    composeEmail(getString(R.string.order_subject_message), orderMessage());
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.can_not_make_order, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public String orderMessage() {
+        String orderMessage = "Product name \t" + inventory.getProductName() + "\n"
+                + "ProductPrice \t" + inventory.getProductPrice() + "\n"
+                + "Product description \t" + inventory.getProductDescription() + "\n"
+                + "Product quantity \t" + 1;
+        return orderMessage;
+    }
+
+    public void reduceQuantity() {
+        int newQuantity = inventory.getProductQuantity() - 1;
+        inventory.setProductQuantity(newQuantity);
+        content.updateQuantity(ID, inventory.getProductQuantity());
+        if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
+            Toast.makeText(getApplicationContext(), R.string.quantity_updated, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.can_not_update_quantity, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void composeEmail(String subject, String text) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto: "));
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
 
 }
 

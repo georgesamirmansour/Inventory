@@ -22,4 +22,18 @@
     <string name="fill_required_filled">Please fill out required filed</string>
     <string name="sale">sale</string>
     <string name="product_description">Product Description</string>
+    <string name="empty_description">Please, press on the button on the right bottom to add new product in the inventory</string>
+    <string name="delete_dialog_message">Are you sure that you want to delete this item?</string>
+    <string name="delete_item">Delete an item</string>
+    <string name="cancel">Cancel</string>
+    <string name="quantity_updated">quantity updated</string>
+    <string name="can_not_update_quantity">can\'t update quantity</string>
+    <string name="can_not_make_order">can\'t make order</string>
+    <string name="product">Products</string>
+    <string name="quantity_updataed">quantity updated</string>
+    <string name="Quantity">Quantity :</string>
+    <string name="price_list_view">$</string>
+    <string name="Name">Name :</string>
+    <string name="error_in_loading">Error while loading image:</string>
+    <string name="error_closing_parcel_file">can\'t close parcel file descriptor</string>
 </resources>

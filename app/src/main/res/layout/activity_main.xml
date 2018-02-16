@@ -7,6 +7,7 @@
     android:padding="11dp"
     tools:context="com.example.gorgesamir.inventory.MainActivity">
 
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -16,6 +17,28 @@
         android:layout_alignParentTop="true"
         android:descendantFocusability="blocksDescendants" />
 
+    <ImageView
+        android:id="@+id/empty_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icons8_empty_box_50"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/empty_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/empty_image_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/empty_description"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:visibility="invisible" />
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -23,6 +46,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/icons8_add_property_filled_50"/>
+        android:src="@drawable/icons8_add_property_filled_50" />
 
 </RelativeLayout>

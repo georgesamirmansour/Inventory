@@ -3,13 +3,14 @@ package com.example.gorgesamir.inventory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gorgesamir.inventory.data.Inventory;
@@ -88,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null
         );
+        if (cursor.moveToNext() == false) {
+            ImageView emptyImageView = findViewById(R.id.empty_image_view);
+            emptyImageView.setVisibility(View.VISIBLE);
+            TextView emptyTextView = findViewById(R.id.empty_text_view);
+            emptyTextView.setVisibility(View.VISIBLE);
+        }
 
         ListView inventoryListView = findViewById(R.id.list);
         InventoryCursorAdapter adapter = new InventoryCursorAdapter(this, cursor);
@@ -138,36 +145,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void orderButton(View view) {
+    public void saleButton(View view) {
         ID = listView.getPositionForView(view);
         ID = ID + 1;
         selectRow();
-        if (inventory.getProductQuantity() != 0 || inventory.getProductQuantity() > 1) {
-            String orderMessage = "Product name \t" + inventory.getProductName() + "\n"
-                    + "ProductPrice \t" + inventory.getProductPrice() + "\n"
-                    + "Product description \t" + inventory.getProductDescription() + "\n"
-                    + "Product quantity \t" + 1;
-            int newQuantity = inventory.getProductQuantity() - 1;
-            inventory.setProductQuantity(newQuantity);
+        if (inventory.getProductQuantity() != 0) {
+            inventory.setProductQuantity(inventory.getProductQuantity() - 1);
             content.updateQuantity(ID, inventory.getProductQuantity());
-            if (content.updateQuantity(ID, inventory.getProductQuantity()) == true) {
-                Toast.makeText(getApplicationContext(), "quantity updated", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "can't update quantity", Toast.LENGTH_SHORT).show();
-            }
-            composeEmail(getString(R.string.order_subject_message), orderMessage);
-        } else {
-            Toast.makeText(getApplicationContext(), "can't make order", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void composeEmail(String subject, String text) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto: "));
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        if (intent.resolveActivity(getPackageManager()) != null) {
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), "can't sale with quantity 0", Toast.LENGTH_SHORT).show();
         }
     }
 }

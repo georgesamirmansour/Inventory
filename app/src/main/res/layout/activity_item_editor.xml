@@ -14,6 +14,7 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_height="match_parent"
             android:text="@string/product_name" />
 
         <LinearLayout
@@ -39,6 +40,7 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_height="match_parent"
             android:text="@string/product_description" />
 
         <LinearLayout
@@ -64,6 +66,7 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_height="match_parent"
             android:text="@string/product_price" />
 
         <LinearLayout
@@ -88,10 +91,12 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_width="44dp"
+            android:layout_height="match_parent"
             android:text="@string/product_quantity" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="5dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:orientation="horizontal">
@@ -100,20 +105,21 @@
                 android:id="@+id/product_increment_edit_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+
                 android:src="@drawable/icons8_plus_math_50" />
 
             <ImageButton
                 android:id="@+id/product_decrement_edit_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:src="@drawable/icons8_minus_50" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/product_quantity_text_view"
             style="@style/UnitsStyle"
+            android:layout_height="match_parent"
             android:text="@string/_0_products" />
     </LinearLayout>
 
@@ -124,6 +130,7 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_height="match_parent"
             android:text="@string/save" />
 
         <LinearLayout
@@ -136,6 +143,7 @@
                 android:id="@+id/edit_save_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="15dp"
                 android:src="@drawable/icons8_save_50" />
         </LinearLayout>
     </LinearLayout>
@@ -147,6 +155,7 @@
 
         <TextView
             style="@style/InventoryStyle"
+            android:layout_height="match_parent"
             android:text="@string/delete"
             android:visibility="visible" />
 
@@ -160,8 +169,37 @@
                 android:id="@+id/edit_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="15dp"
                 android:src="@drawable/icons8_cancel_filled_50" />
 
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/InventoryStyle"
+            android:layout_height="match_parent"
+            android:text="@string/order_subject_message"
+            android:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@drawable/icons8_shopping_cart_50" />
+
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

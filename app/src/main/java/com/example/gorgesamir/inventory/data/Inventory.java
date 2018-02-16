@@ -1,7 +1,5 @@
 package com.example.gorgesamir.inventory.data;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by gorge samir on 2018-02-13.
  */
@@ -12,7 +10,7 @@ public class Inventory {
     private String productDescription;
     private int productQuantity;
     private int productPrice;
-    private Bitmap productImage;
+    private String productImage;
 
     public Inventory() {
     }
@@ -49,11 +47,11 @@ public class Inventory {
         this.productPrice = productPrice;
     }
 
-    public Bitmap getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(Bitmap productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
