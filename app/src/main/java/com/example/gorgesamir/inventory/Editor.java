@@ -22,8 +22,6 @@ import com.example.gorgesamir.inventory.data.Inventory;
 import com.example.gorgesamir.inventory.data.InventoryDbHelper;
 
 public class Editor extends AppCompatActivity {
-
-    private static final int CAMERA_REQUEST = 1;
     Uri uri;
     Inventory inventory = new Inventory();
     EditText nameEditText;
